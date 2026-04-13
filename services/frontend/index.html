@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Azure DevSecOps Platform 🚀</h1>
+
+<button onclick="loadUsers()">Users</button>
+<button onclick="loadProducts()">Products</button>
+<button onclick="loadOrders()">Orders</button>
+
+<pre id="output"></pre>
+
+<script>
+async function loadUsers() {
+  const res = await fetch('/users');
+  const data = await res.json();
+  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+
+async function loadProducts() {
+  const res = await fetch('/products');
+  const data = await res.json();
+  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+
+async function loadOrders() {
+  const res = await fetch('/orders');
+  const data = await res.json();
+  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+</script>
+</body>
+</html>
