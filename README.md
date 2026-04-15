@@ -1,99 +1,155 @@
 # 🚀 Azure DevSecOps AKS Platform
 
-## 📌 Overview
-This project demonstrates a production-grade microservices deployment on Azure using:
+## 📌 Project Overview
 
-- Azure Kubernetes Service (AKS)
-- Azure Container Registry (ACR)
-- Azure DevOps CI/CD
-- Private Networking (VNet)
-- Horizontal Pod Autoscaling (HPA)
-- Ingress Controller
-- Monitoring (Azure Monitor)
+This project demonstrates a **production-grade DevSecOps architecture on Azure**, built using Kubernetes (AKS), CI/CD pipelines, secure secret management, and monitoring.
+
+It simulates a real-world microservices system with automated deployment and secure infrastructure.
 
 ---
 
-## 🧠 Architecture
+## 🧠 Architecture Overview
 
-User → Ingress → API Gateway → Microservices → Database
+User → Ingress → Frontend → API Gateway → Microservices → AKS → ACR → Key Vault → Azure DevOps → Azure Monitor
 
-CI/CD:
-GitHub → Azure DevOps → Build → Scan → Push → Deploy
+## 🏗️ Architecture Diagram
+
+![Architecture](docs/architecture.png)
+---
+
+## 🏗️ Tech Stack
+
+### ☁️ Cloud
+
+* Azure Kubernetes Service (AKS)
+* Azure Container Registry (ACR)
+* Azure Virtual Network (VNet)
+
+### ⚙️ DevOps
+
+* Azure DevOps (CI/CD Pipeline)
+* Docker (Containerization)
+* Kubernetes (Orchestration)
+
+### 🔐 Security
+
+* Azure Key Vault (Secrets)
+* Managed Identity
+* RBAC
+
+### 📊 Monitoring
+
+* Azure Monitor
+* Log Analytics
 
 ---
 
-## 🧩 Services
+## 🔹 Microservices
 
-- Frontend (Nginx)
-- API Gateway
-- User Service
-- Product Service
-- Order Service
-
----
-
-## 🔐 Security
-
-- Managed Identity
-- Private AKS (optional advanced)
-- Image scanning (Trivy)
+* User Service
+* Product Service
+* Order Service
+* API Gateway
+* Frontend
 
 ---
 
-## ⚙️ Features
+## 🚀 Features
 
-- Microservices architecture
-- Auto Scaling using HPA
-- CI/CD pipeline
-- Containerized deployment
-- Production-ready structure
-
----
-
-## 🚀 Setup Instructions
-
-### 1. Clone Repo
-git clone https://github.com/<your-username>/azure-devsecops-aks-platform.git
-cd azure-devsecops-aks-platform
-
-
-### 2. Build Docker Images
-
-docker build -t <acr-name>/user-service:v1 services/user-service
-
-
-### 3. Push to ACR
-
-docker push <acr-name>/user-service:v1
-
-
-### 4. Deploy to AKS
-
-kubectl apply -f k8s/
-
+✔ Microservices architecture
+✔ Kubernetes deployment using AKS
+✔ Ingress-based routing (NGINX)
+✔ CI/CD pipeline using Azure DevOps
+✔ Secure secret management using Key Vault
+✔ Private networking with controlled access
+✔ Monitoring & logging using Azure Monitor
 
 ---
 
-## 📊 Auto Scaling
+## 📂 Project Structure
 
-HPA automatically scales pods based on CPU usage.
+```
+azure-devsecops-aks-platform/
+│
+├── infrastructure/
+│   └── terraform/
+│
+├── services/
+│   ├── user-service/
+│   ├── product-service/
+│   ├── order-service/
+│   ├── api-gateway/
+│   └── frontend/
+│
+├── docker/
+│   ├── Dockerfile.backend
+│   └── Dockerfile.frontend
+│
+├── k8s/
+│   ├── base/
+│   ├── ingress/
+│   └── hpa/
+│
+├── azure-pipelines.yml
+└── README.md
+```
 
 ---
 
-## 📸 Screenshots
-(Add screenshots here)
+## 🔁 CI/CD Flow
+
+1. Code pushed to GitHub
+2. Azure DevOps pipeline triggered
+3. Docker images built
+4. Images pushed to ACR
+5. Kubernetes manifests applied
+6. Application updated in AKS
 
 ---
 
-## 🧠 Learnings
+## 🔐 Security Implementation
 
-- Kubernetes deployments
-- CI/CD pipelines
-- Azure services integration
-- Microservices communication
+* Secrets stored in Azure Key Vault
+* Managed Identity used for secure access
+* Kubernetes RBAC enabled
+* Only Ingress exposed externally
 
 ---
 
-## 🤝 Contribution
+## 📊 Monitoring
 
-Fork this repo and try your own enhancements 🚀
+* Enabled Azure Monitor for AKS
+* Collected logs and metrics
+* Observed pod health and performance
+
+---
+
+## 🌐 Application Flow
+
+* Frontend accessed via Ingress
+* API calls routed to microservices
+* Services communicate internally within cluster
+
+---
+
+## 🎯 Learning Outcomes
+
+* End-to-end DevOps lifecycle implementation
+* Kubernetes production deployment
+* CI/CD automation using Azure DevOps
+* Secure architecture design in cloud
+
+---
+
+## 🔗 GitHub Repository
+
+👉 <your-repo-link>
+
+---
+
+## 👨‍💻 Author
+
+**Gowtham Kakarla**
+Cloud & DevOps Engineer
+
+---
