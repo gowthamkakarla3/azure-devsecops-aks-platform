@@ -1,0 +1,89 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  acrName: 'acrgowthamdevops'
+  resourceGroup: 'rg-devsecops'
+  aksCluster: 'aks-devsecops'
+
+stages:
+
+# ================= BUILD =================
+- stage: Build
+  jobs:
+  - job: BuildPush
+    steps:
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'azure-connection'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az acr login --name $(acrName)
+
+    - script: |
+        docker build -f docker/Dockerfile.backend -t $(acrName).azurecr.io/user-service:latest ./services/user-service
+        docker push $(acrName).azurecr.io/user-service:latest
+      displayName: "User Service"
+
+    - script: |
+        docker build -f docker/Dockerfile.backend -t $(acrName).azurecr.io/product-service:latest ./services/product-service
+        docker push $(acrName).azurecr.io/product-service:latest
+      displayName: "Product Service"
+
+    - script: |
+        docker build -f docker/Dockerfile.backend -t $(acrName).azurecr.io/order-service:latest ./services/order-service
+        docker push $(acrName).azurecr.io/order-service:latest
+      displayName: "Order Service"
+
+    - script: |
+        docker build -f docker/Dockerfile.backend -t $(acrName).azurecr.io/api-gateway:latest ./services/api-gateway
+        docker push $(acrName).azurecr.io/api-gateway:latest
+      displayName: "API Gateway"
+
+    - script: |
+        docker build -f docker/Dockerfile.frontend -t $(acrName).azurecr.io/frontend:latest ./services/frontend
+        docker push $(acrName).azurecr.io/frontend:latest
+      displayName: "Frontend"
+
+# ================= DEPLOY =================
+- stage: Deploy
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    steps:
+
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'azure-connection'
+        azureResourceGroup: '$(resourceGroup)'
+        kubernetesCluster: '$(aksCluster)'
+        command: apply
+        useConfigurationFile: true
+        configuration: |
+          k8s/base/
+          k8s/hpa/
+          k8s/ingress/# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
